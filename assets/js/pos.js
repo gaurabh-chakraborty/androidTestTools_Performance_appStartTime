@@ -41,14 +41,14 @@ let JsBarcode = require('jsbarcode');
 let macaddress = require('macaddress');
 let categories = [];
 let holdOrderList = [];
-let customerOrderList = [];
+let jobWorkerOrderList = [];
 let ownUserEdit = null;
 let totalPrice = 0;
 let orderTotal = 0;
 let auth_error = 'Incorrect username or password';
 let auth_empty = 'Please enter a username and password';
 let holdOrderlocation = $("#randerHoldOrders");
-let customerOrderLocation = $("#randerCustomerOrders");
+let jobWorkerOrderLocation = $("#randerjobWorkerOrders");
 let storage = new Store();
 let settings;
 let platform;
@@ -159,7 +159,7 @@ if (auth == undefined) {
 
         loadCategories();
         loadProducts();
-        loadCustomers();
+        loadjobWorker();
 
 
         if (settings && settings.symbol) {
@@ -257,19 +257,19 @@ if (auth == undefined) {
         }
 
 
-        function loadCustomers() {
+        function loadjobWorker() {
 
-            $.get(api + 'customers/all', function (customers) {
+            $.get(api + 'jobWorker/all', function (jobWorker) {
 
-                $('#customer').html(`<option value="0" selected="selected">Walk in customer</option>`);
+                $('#jobWorker').html(`<option value="0" selected="selected">Select Job Worker</option>`);
 
-                customers.forEach(cust => {
+                jobWorker.forEach(jobW => {
 
-                    let customer = `<option value='{"id": ${cust._id}, "name": "${cust.name}"}'>${cust.name}</option>`;
-                    $('#customer').append(customer);
+                    let jobWorker = `<option value='{"id": ${jobW._id}, "name": "${jobW.name}"}'>${jobW.name}</option>`;
+                    $('#jobWorker').append(jobWorker);
                 });
 
-                //  $('#customer').chosen();
+                //  $('#jobWorker').chosen();
 
             });
 
@@ -642,7 +642,7 @@ if (auth == undefined) {
             let currentTime = new Date(moment());
 
             let discount = $("#inputDiscount").val();
-            let customer = JSON.parse($("#customer").val());
+            let jobWorker = JSON.parse($("#jobWorker").val());
             let date = moment(currentTime).format("YYYY-MM-DD HH:mm:ss");
             let paid = $("#payment").val() == "" ? "" : parseFloat($("#payment").val()).toFixed(2);
             let change = $("#change").text() == "" ? "" : parseFloat($("#change").text()).toFixed(2);
@@ -697,10 +697,10 @@ if (auth == undefined) {
 
             if (status == 0) {
 
-                if ($("#customer").val() == 0 && $("#refNumber").val() == "") {
+                if ($("#jobWorker").val() == 0 && $("#refNumber").val() == "") {
                     Swal.fire(
                         'Reference Required!',
-                        'You either need to select a customer <br> or enter a reference!',
+                        'You either need to select a jobWorker <br> or enter a reference!',
                         'warning'
                     )
 
@@ -737,7 +737,7 @@ if (auth == undefined) {
             <p>
             Order No : ${orderNumber} <br>
             Ref No : ${refNumber == "" ? orderNumber : refNumber} <br>
-            Customer : ${customer == 0 ? 'Walk in customer' : customer.name} <br>
+            jobWorker : ${jobWorker == 0 ? 'Walk in jobWorker' : jobWorker.name} <br>
             Cashier : ${user.fullname} <br>
             Date : ${date}<br>
             </p>
@@ -808,7 +808,7 @@ if (auth == undefined) {
                 order: orderNumber,
                 ref_number: refNumber,
                 discount: discount,
-                customer: customer,
+                jobWorker: jobWorker,
                 status: status,
                 subtotal: parseFloat(subTotal).toFixed(2),
                 tax: totalVat,
@@ -842,12 +842,12 @@ if (auth == undefined) {
                     $('#viewTransaction').html(receipt);
                     $('#orderModal').modal('show');
                     loadProducts();
-                    loadCustomers();
+                    loadjobWorker();
                     $(".loading").hide();
                     $("#dueModal").modal('hide');
                     $("#paymentModel").modal('hide');
                     $(this).getHoldOrders();
-                    $(this).getCustomerOrders();
+                    $(this).getjobWorkerOrders();
                     $(this).renderTable(cart);
 
                 }, error: function (data) {
@@ -887,7 +887,7 @@ if (auth == undefined) {
             $.each(data, function (index, order) {
                 $(this).calculatePrice(order);
                 renderLocation.append(
-                    $('<div>', { class: orderType == 1 ? 'col-md-3 order' : 'col-md-3 customer-order' }).append(
+                    $('<div>', { class: orderType == 1 ? 'col-md-3 order' : 'col-md-3 jobWorker-order' }).append(
                         $('<a>').append(
                             $('<div>', { class: 'card-box order-box' }).append(
                                 $('<p>').append(
@@ -900,8 +900,8 @@ if (auth == undefined) {
                                     $('<b>', { text: 'Items :' }),
                                     $('<span>', { text: order.items.length }),
                                     $('<br>'),
-                                    $('<b>', { text: 'Customer :' }),
-                                    $('<span>', { text: order.customer != 0 ? order.customer.name : 'Walk in customer', class: 'customer_name' })
+                                    $('<b>', { text: 'jobWorker :' }),
+                                    $('<span>', { text: order.jobWorker != 0 ? order.jobWorker.name : 'Walk in jobWorker', class: 'jobWorker_name' })
                                 ),
                                 $('<button>', { class: 'btn btn-danger del', onclick: '$(this).deleteOrder(' + index + ',' + orderType + ')' }).append(
                                     $('<i>', { class: 'fa fa-trash' })
@@ -939,10 +939,10 @@ if (auth == undefined) {
 
                 $('#refNumber').val(holdOrderList[index].ref_number);
 
-                $("#customer option:selected").removeAttr('selected');
+                $("#jobWorker option:selected").removeAttr('selected');
 
-                $("#customer option").filter(function () {
-                    return $(this).text() == "Walk in customer";
+                $("#jobWorker option").filter(function () {
+                    return $(this).text() == "Walk in jobWorker";
                 }).prop("selected", true);
 
                 holdOrder = holdOrderList[index]._id;
@@ -961,16 +961,16 @@ if (auth == undefined) {
 
                 $('#refNumber').val('');
 
-                $("#customer option:selected").removeAttr('selected');
+                $("#jobWorker option:selected").removeAttr('selected');
 
-                $("#customer option").filter(function () {
-                    return $(this).text() == customerOrderList[index].customer.name;
+                $("#jobWorker option").filter(function () {
+                    return $(this).text() == jobWorkerOrderList[index].jobWorker.name;
                 }).prop("selected", true);
 
 
-                holdOrder = customerOrderList[index]._id;
+                holdOrder = jobWorkerOrderList[index]._id;
                 cart = [];
-                $.each(customerOrderList[index].items, function (index, product) {
+                $.each(jobWorkerOrderList[index].items, function (index, product) {
                     item = {
                         id: product.id,
                         product_name: product.product_name,
@@ -983,7 +983,7 @@ if (auth == undefined) {
             }
             $(this).renderTable(cart);
             $("#holdOrdersModal").modal('hide');
-            $("#customerModal").modal('hide');
+            $("#jobWorkerModal").modal('hide');
         }
 
 
@@ -992,7 +992,7 @@ if (auth == undefined) {
             switch (type) {
                 case 1: deleteId = holdOrderList[index]._id;
                     break;
-                case 2: deleteId = customerOrderList[index]._id;
+                case 2: deleteId = jobWorkerOrderList[index]._id;
             }
 
             let data = {
@@ -1020,7 +1020,7 @@ if (auth == undefined) {
                         success: function (data) {
 
                             $(this).getHoldOrders();
-                            $(this).getCustomerOrders();
+                            $(this).getjobWorkerOrders();
 
                             Swal.fire(
                                 'Deleted!',
@@ -1039,22 +1039,22 @@ if (auth == undefined) {
 
 
 
-        $.fn.getCustomerOrders = function () {
-            $.get(api + 'customer-orders', function (data) {
+        $.fn.getjobWorkerOrders = function () {
+            $.get(api + 'jobWorker-orders', function (data) {
                 clearInterval(dotInterval);
-                customerOrderList = data;
-                customerOrderLocation.empty();
-                $(this).randerHoldOrders(customerOrderList, customerOrderLocation, 2);
+                jobWorkerOrderList = data;
+                jobWorkerOrderLocation.empty();
+                $(this).randerHoldOrders(jobWorkerOrderList, jobWorkerOrderLocation, 2);
             });
         }
 
 
 
-        $('#saveCustomer').on('submit', function (e) {
+        $('#savejobWorker').on('submit', function (e) {
 
             e.preventDefault();
 
-            let custData = {
+            let jobWData = {
                 _id: Math.floor(Date.now() / 1000),
                 name: $('#userName').val(),
                 phone: $('#phoneNumber').val(),
@@ -1063,24 +1063,24 @@ if (auth == undefined) {
             }
 
             $.ajax({
-                url: api + 'customers/customer',
+                url: api + 'jobWorker/jobWorker',
                 type: 'POST',
-                data: JSON.stringify(custData),
+                data: JSON.stringify(jobWData),
                 contentType: 'application/json; charset=utf-8',
                 cache: false,
                 processData: false,
                 success: function (data) {
-                    $("#newCustomer").modal('hide');
-                    Swal.fire("Customer added!", "Customer added successfully!", "success");
-                    $("#customer option:selected").removeAttr('selected');
-                    $('#customer').append(
-                        $('<option>', { text: custData.name, value: `{"id": ${custData._id}, "name": ${custData.name}}`, selected: 'selected' })
+                    $("#newjobWorker").modal('hide');
+                    Swal.fire("jobWorker added!", "jobWorker added successfully!", "success");
+                    $("#jobWorker option:selected").removeAttr('selected');
+                    $('#jobWorker').append(
+                        $('<option>', { text: jobWData.name, value: `{"id": ${jobWData._id}, "name": ${jobWData.name}}`, selected: 'selected' })
                     );
 
-                    $('#customer').val(`{"id": ${custData._id}, "name": ${custData.name}}`).trigger('chosen:updated');
+                    $('#jobWorker').val(`{"id": ${jobWData._id}, "name": ${jobWData.name}}`).trigger('chosen:updated');
 
                 }, error: function (data) {
-                    $("#newCustomer").modal('hide');
+                    $("#newjobWorker").modal('hide');
                     Swal.fire('Error', 'Something went wrong please try again', 'error')
                 }
             })
@@ -1137,9 +1137,9 @@ if (auth == undefined) {
         });
 
 
-        $("#viewCustomerOrders").click(function () {
+        $("#viewjobWorkerOrders").click(function () {
             setTimeout(function () {
-                $("#holdCustomerOrderInput").focus();
+                $("#holdjobWorkerOrderInput").focus();
             }, 500);
         });
 
@@ -1208,12 +1208,12 @@ if (auth == undefined) {
                     loadProducts();
                     Swal.fire({
                         title: 'Category Saved',
-                        text: "Select an option below to continue.",
+                        text: "Select An Option Below To Continue.",
                         icon: 'success',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',
-                        confirmButtonText: 'Add another',
+                        confirmButtonText: 'Add Another',
                         cancelButtonText: 'Close'
                     }).then((result) => {
 
@@ -1359,8 +1359,8 @@ if (auth == undefined) {
 
         $.fn.deleteUser = function (id) {
             Swal.fire({
-                title: 'Are you sure?',
-                text: "You are about to delete this user.",
+                title: 'Are You Sure?',
+                text: "You Are About To Delete This User.",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -1377,7 +1377,7 @@ if (auth == undefined) {
                             loadUserList();
                             Swal.fire(
                                 'Done!',
-                                'User deleted',
+                                'User Deleted',
                                 'success'
                             );
 
@@ -1390,13 +1390,13 @@ if (auth == undefined) {
 
         $.fn.deleteCategory = function (id) {
             Swal.fire({
-                title: 'Are you sure?',
-                text: "You are about to delete this category.",
+                title: 'Are You Sure?',
+                text: "You Are About To Delete This Category.",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
+                confirmButtonText: 'Yes, Delete It!'
             }).then((result) => {
 
                 if (result.value) {
@@ -1408,7 +1408,7 @@ if (auth == undefined) {
                             loadCategories();
                             Swal.fire(
                                 'Done!',
-                                'Category deleted',
+                                'Category Deleted',
                                 'success'
                             );
 
@@ -1594,8 +1594,8 @@ if (auth == undefined) {
         $('#log-out').click(function () {
 
             Swal.fire({
-                title: 'Are you sure?',
-                text: "You are about to log out.",
+                title: 'Are You Sure?',
+                text: "You Are About To Log Out.",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
@@ -1635,12 +1635,12 @@ if (auth == undefined) {
             if (formData.percentage != "" && !$.isNumeric(formData.percentage)) {
                 Swal.fire(
                     'Oops!',
-                    'Please make sure the tax value is a number',
+                    'Please Make Sure That The Tax Value Is A Number Only',
                     'warning'
                 );
             }
             else {
-                storage.set('settings', formData);
+                storage.set('settings', formData); 
 
                 $(this).attr('action', api + 'settings/post');
                 $(this).attr('method', 'POST');
@@ -1671,7 +1671,7 @@ if (auth == undefined) {
             if (formData.till == 0 || formData.till == 1) {
                 Swal.fire(
                     'Oops!',
-                    'Please enter a number greater than 1.',
+                    'Please Enter A Number Greater Than 1.',
                     'warning'
                 );
             }
@@ -1684,7 +1684,7 @@ if (auth == undefined) {
                 else {
                     Swal.fire(
                         'Oops!',
-                        'Till number must be a number!',
+                        'Till Must Be A Number!',
                         'warning'
                     );
                 }
@@ -2132,7 +2132,7 @@ $.fn.viewTransaction = function (index) {
     transaction_index = index;
 
     let discount = allTransactions[index].discount;
-    let customer = allTransactions[index].customer == 0 ? 'Walk in Customer' : allTransactions[index].customer.username;
+    let jobWorker = allTransactions[index].jobWorker == 0 ? 'Walk in jobWorker' : allTransactions[index].jobWorker.username;
     let refNumber = allTransactions[index].ref_number != "" ? allTransactions[index].ref_number : allTransactions[index].order;
     let orderNumber = allTransactions[index].order;
     let type = "";
@@ -2200,7 +2200,7 @@ $.fn.viewTransaction = function (index) {
         <p>
         Invoice : ${orderNumber} <br>
         Ref No : ${refNumber} <br>
-        Customer : ${allTransactions[index].customer == 0 ? 'Walk in Customer' : allTransactions[index].customer.name} <br>
+        jobWorker : ${allTransactions[index].jobWorker == 0 ? 'Walk in jobWorker' : allTransactions[index].jobWorker.name} <br>
         Cashier : ${allTransactions[index].user} <br>
         Date : ${moment(allTransactions[index].date).format('DD MMM YYYY HH:mm:ss')}<br>
         </p>
@@ -2290,8 +2290,8 @@ $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
 
 
 function authenticate() {
-    $('#loading').append(
-        `<div id="load"><form id="account"><div class="form-group"><input type="text" placeholder="Username" name="username" class="form-control"></div>
+    $('#loading').append( 
+        `<div id="load"><form id="account"><a>Please Enter Your Login Details Continue</a><div class="form-group"><input type="text" placeholder="Username" name="username" class="form-control"></div>
         <div class="form-group"><input type="password" placeholder="Password" name="password" class="form-control"></div>
         <div class="form-group"><input type="submit" class="btn btn-block btn-default" value="Login"></div></form>`
     );
@@ -2305,7 +2305,7 @@ $('body').on("submit", "#account", function (e) {
     if (formData.username == "" || formData.password == "") {
 
         Swal.fire(
-            'Incomplete form!',
+            'Incomplete Form!',
             auth_empty,
             'warning'
         );
@@ -2344,7 +2344,7 @@ $('body').on("submit", "#account", function (e) {
 $('#quit').click(function () {
     Swal.fire({
         title: 'Are you sure?',
-        text: "You are about to close the application.",
+        text: "You Are About To Close The Application!",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#d33',

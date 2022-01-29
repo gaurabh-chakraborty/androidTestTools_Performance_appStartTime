@@ -22,7 +22,7 @@
 
 
 .order-box{
-background-color: grey;
+background-color: aquamarine;
 color: #FFFFFF;
 }
 
@@ -152,8 +152,8 @@ margin-right: 30px;
   display: none;
 }
 
-#loading {
-  background: rgb(221,221,221);
+#loading { 
+  background: rgb(101,247,184);
   background: radial-gradient(circle, rgba(153,153,153,1) 0%, rgba(221,221,221,1)  100%); 
   position: absolute;
   height: 100%;

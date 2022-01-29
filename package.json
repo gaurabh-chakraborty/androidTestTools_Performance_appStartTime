@@ -1,8 +1,8 @@
 {
-  "name": "POS",
-  "version": "0.1.0",
-  "description": "Store Point of Sale is a desktop application developed by Hosting Domain and available for free download at www.storepointofsale.com.",
-  "author": "Hosting Domain",
+  "name": "app",
+  "version": "1.0",
+  "description": "Desktop Application developed For POC Purpose",
+  "author": "Gaurabh",
   "private": true,
   "main": "start.js",
   "build": {

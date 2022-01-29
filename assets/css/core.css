@@ -2,7 +2,7 @@
 @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300);
 
 body {
-  background: #ebeff2;
+  background: #66ffcc;
   font-family: 'Noto Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   margin: 0;
   overflow-x: hidden;
@@ -11,7 +11,7 @@ body {
 html {
   position: relative;
   min-height: 100%;
-  background: #ebeff2;
+  background: #66ffcc;
 }
 h1,
 h2,

@@ -4,13 +4,13 @@ const path = require('path');
 const rootPath = path.join('./');
 
 resultPromise = electronInstaller.createWindowsInstaller({
-    appDirectory: './release-builds/POS-win32-x64',
+    appDirectory: './release-builds/POC-win32-x64',
     outputDirectory: './installers',
-    authors: 'Hosting Domain',
+    authors: 'Gaurabh',
     noMsi: true,
-    exe: 'pos.exe',
-    setupExe: 'POSInstaller.exe',
+    exe: 'poc.exe',
+    setupExe: 'POCInstaller.exe',
     setupIcon: path.join(rootPath, 'assets', 'images', 'icon.ico')
   });
 
-resultPromise.then(() => console.log("It worked!"), (e) => console.log(`No dice: ${e.message}`));
+resultPromise.then(() => console.log("It is working"), (e) => console.log(`No dice: ${e.message}`));

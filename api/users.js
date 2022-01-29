@@ -25,7 +25,7 @@ app.get( "/", function ( req, res ) {
   
 app.get( "/user/:userId", function ( req, res ) {
     if ( !req.params.userId ) {
-        res.status( 500 ).send( "ID field is required." );
+        res.status( 500 ).send( "User ID field is required." );
     }
     else{
     usersDB.findOne( {
@@ -40,7 +40,7 @@ app.get( "/user/:userId", function ( req, res ) {
 
 app.get( "/logout/:userId", function ( req, res ) {
     if ( !req.params.userId ) {
-        res.status( 500 ).send( "ID field is required." );
+        res.status( 500 ).send( "User ID field is required." );
     }
     else{ usersDB.update( {
             _id: parseInt(req.params.userId)
@@ -148,7 +148,7 @@ app.post( "/post" , function ( req, res ) {
 
 });
 
-
+//the below command is used to hardcode the admin access: user id : admin and password : admin
 app.get( "/check", function ( req, res ) {
     usersDB.findOne( {
         _id: 1

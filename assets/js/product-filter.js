@@ -55,21 +55,21 @@ $(document).ready(function(){
     });
  
   
-    function searchCustomerOrders() {
-        var matcher = new RegExp($("#holdCustomerOrderInput").val(), 'gi');
-        $('.customer-order').show().not(function(){
-            return matcher.test($(this).find('.customer_name').text())
+    function searchjobWorkerOrders() {
+        var matcher = new RegExp($("#holdjobWorkerOrderInput").val(), 'gi');
+        $('.jobWoorker-order').show().not(function(){
+            return matcher.test($(this).find('.jobWorker_name').text())
         }).hide();
     }
 
-    var $searchCustomerOrder = $("#holdCustomerOrderInput").on('input',function () {
-        searchCustomerOrders();
+    var $searchjobWorkerOrder = $("#holdjobWorkerOrderInput").on('input',function () {
+        searchjobWorkerOrders();
     });
 
 
-    $('body').on('click', '.customerOrderKeyboard .key', function() {
-        if($("#holdCustomerOrderInput").is(":focus")) {
-            searchCustomerOrders();
+    $('body').on('click', '.jobWorkerOrderKeyboard .key', function() {
+        if($("#holdjobWorkerOrderInput").is(":focus")) {
+            searchjobWorkerOrders();
         }          
     });
  

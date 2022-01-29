@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Point Of Sale</title>
+    <title>POC Desktop App</title>
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="assets/css/core.css" rel="stylesheet" type="text/css" />
     <link href="assets/css/components.css" rel="stylesheet" type="text/css" />
@@ -47,8 +47,8 @@
                                     <span class="btn-label"><i class="fa fa-shopping-basket"></i> </span> Open Tabs
                             </button>
             
-                            <button id="viewCustomerOrders" data-toggle="modal" data-target="#customerModal" type="button" onclick="$(this).getCustomerOrders()" class="btn btn-info waves-effect waves-light">
-                                    <span class="btn-label"><i class="fa fa-user"></i> </span> Customer Orders
+                            <button id="viewjobWorkerOrders" data-toggle="modal" data-target="#jobWorkerModal" type="button" onclick="$(this).getjobWorkerOrders()" class="btn btn-info waves-effect waves-light">
+                                    <span class="btn-label"><i class="fa fa-user"></i> </span> Job Worker Orders
                             </button>
                         
                     </div>
@@ -215,11 +215,11 @@
                   <div class="col-md-12">
                       <div class="row">
                           <div class="col-md-10">
-                              <select name="" id="customer" class="form-control">
+                              <select name="" id="jobWorker" class="form-control">
                           </select>
                           </div>
                           <div class="col-md-2">
-                              <button data-toggle="modal" data-target="#newCustomer" class="btn btn-success"><i class="fa fa-plus"></i></button>
+                              <button data-toggle="modal" data-target="#newjobWorker" class="btn btn-success"><i class="fa fa-plus"></i></button>
                           </div>
                       </div>
                       <div class="input-group m-t-5">
@@ -297,7 +297,7 @@
               <div class="card-box">
                   <div class="row">
                       <div class="col-md-4">
-                          <input type="text" id="search" class="form-control" placeholder="Search product by name or sku">
+                          <input type="text" id="search" class="form-control" placeholder="Search Product: By Name Or SKU">
                       </div>
                       <div class="col-md-8">
                           <div class="" id="categories">
@@ -495,31 +495,31 @@
       </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
   
-  <div id="newCustomer" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="display: none;">
+  <div id="newjobWorker" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="display: none;">
       <div class="modal-dialog modal-sm">
           <div class="modal-content">
               <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                  <h4 class="modal-title" id="mySmallModalLabel">New Customer
+                  <h4 class="modal-title" id="mySmallModalLabel">New Job Worker
                       <img  class="loading m-t-5" style="margin-left: 35%" height="50px" src="assets/images/loading.gif" alt="">
                   </h4>
               </div>
               <div class="modal-body">
-                  <form id="saveCustomer" data-parsley-validate>
+                  <form id="savejobWorker" data-parsley-validate>
                       <div class="form-group">
-                          <label for="userName">Customer Name*</label>
+                          <label for="userName">Job Worker Name*</label>
                           <input type="text" required="required"  name="name" parsley-trigger="change" placeholder="Enter name" class="form-control" id="userName">
                       </div>
                       <div class="form-group">
-                          <label for="userName">Customer Phone</label>
+                          <label for="userName">Job Worker Phone</label>
                           <input type="text" name="phone" parsley-trigger="change" placeholder="Enter Phone number" class="form-control" id="phoneNumber">
                       </div>
                       <div class="form-group">
-                          <label for="userName">Customer Email</label>
+                          <label for="userName">Job Worker Email</label>
                           <input type="email" name="email" parsley-trigger="change" placeholder="Enter email address" class="form-control" id="emailAddress">
                       </div>
                       <div class="form-group">
-                          <label for="userName">Customer Address</label>
+                          <label for="userName">Job Worker Address</label>
                           <input type="text" name="address" parsley-trigger="change" placeholder="Enter address" class="form-control" id="userAddress">
                       </div>
 
@@ -701,7 +701,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="mySmallModalLabel">Account Infomarion
+                    <h4 class="modal-title" id="mySmallModalLabel">Account Information
                         <img  class="loading m-t-5" style="margin-left: 35%" height="50px" src="assets/images/loading.gif" alt="">
                     </h4>
                 </div>
@@ -721,29 +721,29 @@
                             <input type="password" name="password" parsley-trigger="change" placeholder="Password" class="form-control" id="password">
                         </div>
                         <div class="form-group">
-                            <label for="userName">Repeat Password</label>
+                            <label for="userName">Confirm Password</label>
                             <input type="password" name="pass" parsley-trigger="change" placeholder="Repeat" class="form-control" id="pass">
                         </div>
 
                         <div class="perms">
 
-                            <h4 style="font-size: 22px; margin-top: 20px;">Permissions</h4>
+                            <h4 style="font-size: 22px; margin-top: 20px;">Add Permissions</h4>
                             <hr>
     
                             <div class="form-group">
-                                  <span><input type="checkbox" name="perm_products" id="perm_products"> Manage Products and Stock </span>
+                                  <span><input type="checkbox" name="perm_products" id="perm_products"> Can Manage Products and Stock </span>
                             </div>
                             <div class="form-group">
-                                <span><input type="checkbox" name="perm_categories" id="perm_categories"> Manage Product Categories </span>
+                                <span><input type="checkbox" name="perm_categories" id="perm_categories"> Can Manage Product Categories </span>
                           </div>
                           <div class="form-group">
-                            <span><input type="checkbox" name="perm_transactions" id="perm_transactions"> View Transactions </span>
+                            <span><input type="checkbox" name="perm_transactions" id="perm_transactions"> Can View Transactions </span>
                            </div>
                                 <div class="form-group">
-                                    <span><input type="checkbox" name="perm_users" id="perm_users"> Manage Users and Permissions </span>
+                                    <span><input type="checkbox" name="perm_users" id="perm_users"> Can Manage Other Users and Permissions </span>
                             </div>
                             <div class="form-group">
-                                <span><input type="checkbox" name="perm_settings" id="perm_settings"> Manage Settings </span>
+                                <span><input type="checkbox" name="perm_settings" id="perm_settings"> Can Manage Settings </span>
                             </div>
     
                         </div>
@@ -767,11 +767,11 @@
                 <h4 class="modal-title" id="myLargeModalLabel">Open Orders</h4>
             </div>
             <div class="modal-body">
-                <input type="text" id="holdOrderInput" placeholder="Search order by reference" class="holdOrderInput form-control">
+                <input type="text" id="holdOrderInput" placeholder="Search Order By Reference" class="holdOrderInput form-control">
                 <div class="holdOrderKeyboard"></div>
                 <br>
                 <div class="row" style="height: 460px;overflow-x: hidden;overflow-y:scroll" id="randerHoldOrders">
-                    <p>please wait <span class="dot"></span> </p>  
+                    <p>Please Wait <span class="dot"></span> </p>  
                 </div>
             </div>
         </div>
@@ -782,19 +782,19 @@
 
 
  
-<div id="customerModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+<div id="jobWorkerModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" id="myLargeModalLabel">Customer Orders</h4>
+                <h4 class="modal-title" id="myLargeModalLabel">Job Worker Orders</h4>
             </div>
             <div class="modal-body">
-                <input type="text" id="holdCustomerOrderInput" placeholder="Search order by customer name" class="holdCustomerOrderInput form-control">
-                <div class="customerOrderKeyboard"></div>
+                <input type="text" id="holdjobWorkerOrderInput" placeholder="Search order by jobWorker name" class="holdjobWorkerOrderInput form-control">
+                <div class="jobWorkerOrderKeyboard"></div>
                 <br>
-                <div class="row" style="height: 460px; overflow: scroll;" id="randerCustomerOrders">
-                    <p>please wait <span class="dot"></span> </p>
+                <div class="row" style="height: 460px; overflow: scroll;" id="randerjobWorkerOrders">
+                    <p>Please Wait <span class="dot"></span> </p>
                 </div>
             </div>
         </div>
@@ -813,7 +813,7 @@
             <div class="modal-body" id="viewTransaction">                 
             </div>
 
-            <div class="alert alert-danger" style="font-size:11px;">Right-Click and Reload if you get stuck after cancelling a print.</div>
+            <div class="alert alert-danger" style="font-size:11px;">Please Right-Click On Your Mouse and Click Reload if you get stuck after cancelling a print.</div>
         </div>
     </div>
 </div>
@@ -832,11 +832,11 @@
                         
                         
                         <div class="form-group">
-                        <label for="app">Application</label>
+                        <label for="app">Please Select The Type Of Application</label>
                         <select name="app" id="app" class="form-control">
-                            <option>Standalone Point of Sale</option>
-                            <option>Network Point of Sale Terminal</option>
-                            <option>Network Point of Sale Server</option>                                            
+                            <option>Standalone</option>
+                            <option>Network (Terminal)</option>
+                            <option>Network (Server)</option>                                            
                         </select>
                  </div>
 
@@ -894,7 +894,7 @@
                                         <input type="text" name="contact" class="form-control" id="contact">
                                  </div>
                                  <div class="form-group">
-                                        <label for="userName">Vat Number</label>
+                                        <label for="userName">GSTIN Number</label>
                                         <input type="text" name="tax" parsley-trigger="change" class="form-control" id="tax">
                                  </div>
                               
@@ -907,7 +907,7 @@
                                      </div>
     
                                      <div class="form-group">
-                                            <label for="userName">Vat Percentage</label>
+                                            <label for="userName">GSTIN Percentage</label>
                                             <div style="width: 80%; float:left;">
                                             <input type="text" required="required"  name="percentage" class="form-control" id="percentage">
                                             </div>
@@ -915,7 +915,7 @@
                                      </div>
                                      <br><br>
                                      <div class="form-group">
-                                        <label><input type="checkbox" name="charge_tax" id="charge_tax"> Charge Vat</label>
+                                        <label><input type="checkbox" name="charge_tax" id="charge_tax">Charge GST</label>
                                      </div>
                                      <div class="form-group">       
                                         <label for="userName"><span id="rmv_logo" class="btn btn-xs btn-warning">Remove</span> Logo </label>              
